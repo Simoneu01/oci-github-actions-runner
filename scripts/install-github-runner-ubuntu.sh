@@ -6,8 +6,23 @@ _GITHUB_RUNNER_REGISTRATION_TOKEN='${github_runner_registration_token}'
 _GITHUB_URL='${github_url}'
 _GITHUB_RUNNER_LABEL_LIST='${github_runner_label_list}'
 
-
-dnf install -y docker
+# Install Docker
+sudo apt-get update
+sudo apt-get upgrade -y
+sudo apt-get install -y \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+sudo groupadd docker || true
+sudo usermod -aG docker ubuntu
+newgrp docker
 
 cd /
 mkdir -p actions-runner && cd actions-runner
@@ -24,7 +39,7 @@ curl -o actions-runner-linux-$arch-$_GITHUB_RUNNER_VERSION.tar.gz -L https://git
 
 tar xzf ./actions-runner-linux-$arch-$_GITHUB_RUNNER_VERSION.tar.gz  
 
-chown opc:opc . -R
+chown ubuntu:ubuntu . -R
 
 # if [ "$?" == "0" ]; then
 #     echo "Finished Github Actions Runner installation"
@@ -36,8 +51,8 @@ chown opc:opc . -R
 
 # Configure runner
 
-#sudo -E -u opc sh -x config.sh --labels $_GITHUB_RUNNER_LABEL_LIST --url $_GITHUB_URL --token $_GITHUB_RUNNER_REGISTRATION_TOKEN
-sudo -u opc sh -x config.sh --unattended --labels $_GITHUB_RUNNER_LABEL_LIST --url $_GITHUB_URL --token $_GITHUB_RUNNER_REGISTRATION_TOKEN
+#sudo -E -u ubuntu sh -x config.sh --labels $_GITHUB_RUNNER_LABEL_LIST --url $_GITHUB_URL --token $_GITHUB_RUNNER_REGISTRATION_TOKEN
+sudo -u ubuntu bash -x config.sh --unattended --labels $_GITHUB_RUNNER_LABEL_LIST --url $_GITHUB_URL --token $_GITHUB_RUNNER_REGISTRATION_TOKEN
 
 
 if [ "$?" != "0" ]; then
@@ -49,7 +64,7 @@ fi
 
 # Configuring the runner application as OS service.
 
-sh -x svc.sh install
+bash -x svc.sh install
 
 if [ "$?" != "0" ]; then
     echo "########################################################################################"
@@ -61,7 +76,7 @@ fi
 #Fix to address issue with start of the server with SELinux enabled: https://github.com/actions/runner/issues/410#issuecomment-644993319
 chcon system_u:object_r:usr_t:s0 runsvc.sh
 
-sh -x svc.sh start
+bash -x svc.sh start
 
 
 if [ "$?" == "0" ]; then

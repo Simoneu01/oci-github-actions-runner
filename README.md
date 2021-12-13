@@ -74,7 +74,7 @@ Archive:  dist/oci-github-actions-runner-orm.zip
      2497  01-01-2049 00:00   nsg.tf
     15535  01-01-2049 00:00   orm.yaml
       743  01-01-2049 00:00   outputs.tf
-     2679  01-01-2049 00:00   scripts/install-github-runner-OL.sh
+     2679  01-01-2049 00:00   scripts/install-github-runner-ubuntu.sh
      5755  01-01-2049 00:00   variables.tf
        46  01-01-2049 00:00   versions.tf
 ---------                     -------

@@ -173,12 +173,12 @@ variables:
       # - "Oracle Autonomous Linux 7"
       # - "Oracle Linux 6"
       # - "Oracle Linux 7"
-      - "Oracle Linux 8"
+      # - "Oracle Linux 8"
       # - "Ubuntu 16.04"
       # - "Ubuntu 18.04"
-      # - "Ubuntu 20.04"
+       - "Ubuntu 20.04"
     required: true
-    default: "Oracle Linux 8"
+    default: "Ubuntu 20.04"
 
   compute_image_strategy:
     type: enum
@@ -201,8 +201,8 @@ variables:
     title: Platform Image
     dependsOn:
       compartmentId: compute_compartment_ocid
-      operatingSystem: "Oracle Linux"
-      operatingSystemVersion: "8"
+      operatingSystem: "Canonical Ubuntu"
+      operatingSystemVersion: "20.04"
       shape: compute_shape
 
   custom_image_ocid:

@@ -28,7 +28,7 @@ platform_image_ocid = "ocid1.image.<my_platform_image_ocid>"
 
 ### GitHub Actions Runner Configuration ###
 github_runner_label_list = "oci"
-github_runner_version    = "2.278.0"
+github_runner_version    = "2.285.1"
 
 # GitHub Repo URL
 github_url                       = "https://github.com/<my-org>/<my-repo>/"

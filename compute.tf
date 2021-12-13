@@ -42,7 +42,7 @@ resource "oci_core_instance" "simple-vm" {
 
 
 data "template_file" "install_runner_ol" {
-  template = file("${path.module}/scripts/install-github-runner-OL.sh")
+  template = file("${path.module}/scripts/install-github-runner-ubuntu.sh")
 
   vars = {
     github_runner_version            = var.github_runner_version
