@@ -7,19 +7,23 @@ _GITHUB_URL='${github_url}'
 _GITHUB_RUNNER_LABEL_LIST='${github_runner_label_list}'
 
 # Install Docker
-sudo apt-get update
-sudo apt-get upgrade -y
-sudo apt-get install -y \
+sudo apt update
+sudo apt upgrade -y
+sudo apt install -y \
+    apt-transport-https \
+    software-properties-common \
     ca-certificates \
     curl \
     gnupg \
     lsb-release
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt-get update
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io
 sudo groupadd docker || true
 sudo usermod -aG docker ubuntu
 newgrp docker
